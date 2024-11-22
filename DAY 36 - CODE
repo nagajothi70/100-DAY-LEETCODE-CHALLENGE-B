@@ -1,0 +1,36 @@
+class Solution {
+    public int maxEqualRowsAfterFlips(int[][] matrix) {
+        int m = matrix.length, n = matrix[0].length;
+        HashMap<String, Integer> patternCount = new HashMap<>();
+
+        for (int[] row : matrix) {
+            StringBuilder pattern = new StringBuilder();
+            StringBuilder complementPattern = new StringBuilder();
+
+           
+            for (int j = 0; j < n; j++) {
+                if (row[0] == 0) {
+                    
+                    pattern.append(row[j]);
+                    complementPattern.append(1 - row[j]);
+                } else {
+                    
+                    pattern.append(1 - row[j]);
+                    complementPattern.append(row[j]);
+                }
+            }
+
+           
+            String normalizedPattern = pattern.toString();
+            patternCount.put(normalizedPattern, patternCount.getOrDefault(normalizedPattern, 0) + 1);
+        }
+
+       
+        int maxRows = 0;
+        for (int count : patternCount.values()) {
+            maxRows = Math.max(maxRows, count);
+        }
+
+        return maxRows; 
+    }
+}
