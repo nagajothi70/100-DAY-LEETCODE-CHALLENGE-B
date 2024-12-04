@@ -1,0 +1,23 @@
+class Solution {
+    public boolean canMakeSubsequence(String str1, String str2) {
+        int n1 = str1.length();
+        int n2 = str2.length();
+        
+        if (n2 > n1) return false;
+        int i = 0, j = 0;
+
+        while (i < n1 && j < n2) {
+            char sourceChar = str1.charAt(i);
+            char targetChar = str2.charAt(j);
+            
+            int steps = (targetChar - sourceChar + 26) % 26;
+            
+            if (steps == 0 || steps <= 1) {
+                j++; 
+            }
+            
+            i++; 
+        }  
+        return j == n2;
+    }
+}
