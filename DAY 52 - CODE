@@ -1,0 +1,40 @@
+class Solution {
+    public boolean[] isArraySpecial(int[] nums, int[][] queries) {
+        int n = nums.length;
+
+        if (n == 0 || queries.length == 0) {
+            return new boolean[queries.length];
+        }
+
+        if (n == 1) {
+            boolean[] result = new boolean[queries.length];
+            Arrays.fill(result, true);
+            return result;
+        }
+
+        int[] mismatch = new int[n - 1];
+        for (int i = 0; i < n - 1; i++) {
+            mismatch[i] = (nums[i] % 2 == nums[i + 1] % 2) ? 1 : 0;
+        }
+
+        int[] prefixSum = new int[n - 1];
+        prefixSum[0] = mismatch[0];
+        for (int i = 1; i < n - 1; i++) {
+            prefixSum[i] = prefixSum[i - 1] + mismatch[i];
+        }
+
+        boolean[] result = new boolean[queries.length];
+        for (int i = 0; i < queries.length; i++) {
+            int from = queries[i][0];
+            int to = queries[i][1];
+            if (from == to) {
+                result[i] = true;
+                continue;
+            }
+            int mismatchCount = (from == 0) ? prefixSum[to - 1] : prefixSum[to - 1] - prefixSum[from - 1];
+            result[i] = mismatchCount == 0;
+        }
+
+        return result;
+    }
+}
